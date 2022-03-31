@@ -84,7 +84,41 @@ def index():
 		return render_template('main.html', diets=diets, infos=infos)
 	else:
 		return redirect('/login')
+	
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	form = SignupForm()
+	if form.validate_on_submit():
+		new_user = User(username=form.username.data, password=form.password.data)
+		if User.query.filter_by(username=form.username.data).first():
+			flash('Username already in use, try another one.')
+		else:
+			try:
+				db.session.add(new_user)
+				db.session.commit()
+				return redirect('/login')
+			except:
+				return "There was an error registrating the user!"
 
+	return render_template('signup.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	form = LoginForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(username=form.username.data).first()
+		if user is not None and user.verify_password(form.password.data):
+			login_user(user)
+			return redirect('/')
+		flash('Wrong username or password')
+	return render_template('login.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+	logout_user()
+	flash('You have been logged out.')
+	return redirect('/login')
 
 if __name__ == '__main__':
 	manager.run()

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Login{% endblock %}
+{% block page_content %}
+
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+<style>
+.submit_form {
+    background-image: url("{{ url_for('static', filename='images/login.jpg')}}");
+    min-height: 900px;
+    background-position: center;
+    position: center;
+}
+</style>
+</head>
+<div class="w3-container w3-teal">
+  <h1>Welcome to Personal Diet Manager</h1>
+</div>
+<div class="submit_form">
+    <form class="container" method="POST" action="">
+    	{{ wtf.form_field(form.username) }}
+    	{{ wtf.form_field(form.password) }}
+    	{{ form.csrf_token }}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p style="color:red;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    	<input type="submit" name="login_user" value = "Submit" class="btn">
+
+        <p>New user? <a href="{{ url_for('signup') }}">Click here to register</a>.</p>
+    </form>
+</div>
+<div class="w3-container w3-teal">
+</div>
+{% endblock %}
