@@ -74,5 +74,17 @@ class Info(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
+@app.route('/', methods=['POST', 'GET'])
+@login_required
+def index():
+	status = current_user.is_active
+	if status:
+		diets = DietPlan.query.filter_by(user=current_user)
+		infos = Info.query.filter_by(user=current_user)
+		return render_template('main.html', diets=diets, infos=infos)
+	else:
+		return redirect('/login')
+
+
 if __name__ == '__main__':
 	manager.run()
