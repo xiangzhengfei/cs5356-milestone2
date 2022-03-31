@@ -13,7 +13,3 @@ class SignupForm(FlaskForm):
 	password = PasswordField('Password', validators=[DataRequired(), EqualTo('password1', message='Passwords must match.')])
 	password1 = PasswordField('Confirm Password', validators=[DataRequired()])
 	submit = SubmitField('Sign up')
-
-
-
-
