@@ -93,6 +93,22 @@ def index():
 				return redirect('/')
 			except:
 				return "There was an error adding the user!"
+
+		elif request.method == "POST" and request.form.get("add"):
+			day = request.form['day']
+			morning = request.form['morning']
+			noon = request.form['noon']
+			evening = request.form['evening']
+			calories = request.form['calories']
+			day_plan = DietPlan(day=day, morning_meal=morning, noon_meal=noon, 
+				evening_meal=evening, claories_in=calories, user=current_user)
+			try:
+				db.session.add(day_plan)
+				db.session.commit()
+				return redirect('/')
+			except:
+				return "There was an error adding the plan!"
+
 		else:
 			diets = DietPlan.query.filter_by(user=current_user)
 			infos = Info.query.filter_by(user=current_user)
@@ -156,6 +172,17 @@ def delete_info(id):
         return redirect('/')
     except:
         return "There was an error deleting the info!"
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    plan_to_delete = DietPlan.query.get_or_404(id)
+    try:
+        db.session.delete(plan_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return "There was an error deleting the plan!"
 
 if __name__ == '__main__':
 	manager.run()

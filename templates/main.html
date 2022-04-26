@@ -93,6 +93,63 @@ table{
     <div class="w3-container w3-teal">
       <h1>Make Your Diet Plan:</h1>
     </div>
+    <h3 class = "heading"> Add your weekly diet plan: </h3>
+    <form METHOD="POST">
+      <input type="text" placeholder="Day" name="day">
+      <input type="text" placeholder="Morning" name="morning">
+      <input type="text" placeholder="Noon" name="noon">
+      <input type="text" placeholder="Evening" name="evening">
+      <input type="text" placeholder="Calories In" name="calories">
+      <input type="submit" name="add" value = "Add it!">
+    </form>
+    <table>
+      <tr>
+        <th>Day</th>
+        <th>Morning</th>
+        <th>Noon</th>
+        <th>Evening</th>
+        <th>Calories In</th>
+        <th>Edit</th>
+      </tr>
+      {% for diet in diets %}
+        <tr>
+        <td>
+          {{ diet.day }}
+        </td>
+        <td>
+          {{ diet.morning_meal }} 
+          <form method="POST" actoin="\" style="display:inline">
+                  <input type= "hidden" value="{{diet.morning_meal}}" name="old_mor">
+                  <input type="text" value="{{diet.morning_meal}}" name="new_mor">
+          </form> 
+        </td>
+        <td>
+          {{ diet.noon_meal }}
+          <form method="POST" actoin="\" style="display:inline">
+                  <input type= "hidden" value="{{diet.noon_meal}}" name="old_noon">
+                  <input type="text" value="{{diet.noon_meal}}" name="new_noon">
+          </form>
+        </td>
+        <td>
+          {{ diet.evening_meal }}
+          <form method="POST" actoin="\" style="display:inline">
+                  <input type= "hidden" value="{{diet.evening_meal}}" name="old_eve">
+                  <input type="text" value="{{diet.evening_meal}}" name="new_eve">
+          </form>
+        </td>
+        <td>
+          {{ diet.claories_in }}
+          <form method="POST" actoin="\" style="display:inline">
+                  <input type= "hidden" value="{{diet.claories_in}}" name="old_cal">
+                  <input type="text" value="{{diet.claories_in}}" name="new_cal">
+          </form>
+        </td>
+        <td>
+          <a href="/delete/{{diet.id}}"> Delete </a>
+        </td>
+        </tr>
+      {% endfor %}
+    </table>
 
    
    
