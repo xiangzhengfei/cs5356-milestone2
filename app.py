@@ -79,9 +79,24 @@ class Info(db.Model):
 def index():
 	status = current_user.is_active
 	if status:
-		diets = DietPlan.query.filter_by(user=current_user)
-		infos = Info.query.filter_by(user=current_user)
-		return render_template('main.html', diets=diets, infos=infos)
+		if request.method == "POST" and request.form.get("add_info"): 
+			f_name = request.form['f_name']
+			l_name = request.form['l_name']
+			weight = request.form['weight']
+			height = request.form['height']
+			exp_calories = request.form['calories']
+			new_info = Info(first_name=f_name, last_name=l_name, weight=weight, 
+				height=height, expected_calories=exp_calories, user=current_user)
+			try:
+				db.session.add(new_info)
+				db.session.commit()
+				return redirect('/')
+			except:
+				return "There was an error adding the user!"
+		else:
+			diets = DietPlan.query.filter_by(user=current_user)
+			infos = Info.query.filter_by(user=current_user)
+			return render_template('main.html', diets=diets, infos=infos)
 	else:
 		return redirect('/login')
 	
@@ -119,6 +134,28 @@ def logout():
 	logout_user()
 	flash('You have been logged out.')
 	return redirect('/login')
+
+
+@app.route('/changepassword/<int:id>', methods=['POST', 'GET'])
+def changepassword(id):
+	user_to_update = User.query.get_or_404(id)
+	if request.method == "POST":
+		user_to_update.password = request.form['password']
+		db.session.commit()
+		flash('Please log in again since you have changed your password.')
+		return redirect('/logout')
+	return render_template('changepassword.html', user_to_update=user_to_update)
+
+
+@app.route('/delete_info/<int:id>')
+def delete_info(id):
+    plan_to_delete = Info.query.get_or_404(id)
+    try:
+        db.session.delete(plan_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return "There was an error deleting the info!"
 
 if __name__ == '__main__':
 	manager.run()

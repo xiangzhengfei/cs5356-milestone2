@@ -46,7 +46,7 @@ table{
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'info')">Personal Information</button> 
   <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'form')">Daily Diet Plan</button>
   {% if current_user.is_authenticated %}
-  
+  <button class="w3-bar-item w3-button tablink" onclick="location.href = '/changepassword/{{current_user.id}}'" type = "button">Change Password</button>
   <button class="w3-bar-item w3-button tablink" onclick="location.href='/logout'" type= "button">Log Out</button>
   {% endif %} 
     
@@ -66,8 +66,27 @@ table{
       <h1>Personal Information:</h1>
     </div>
     <h3 class = "heading"> Personal Information: </h3>
-
+    <form METHOD="POST">
+      <input type="text" placeholder="First Name" name="f_name">
+      <input type="text" placeholder="Last Name" name="l_name">
+      <input type="text" placeholder="Weight" name="weight">
+      <input type="text" placeholder="Height" name="height">
+      <input type="text" placeholder="Expected Calories In/Day" name="calories">
+      <input type="submit" name="add_info" value = "Add it!">
+    </form>
     
+    {% for info in infos %}
+    {% if info.first_name %}
+    <ul>
+      <li>First Name: {{ info.first_name }}</li>
+      <li>Last Name: {{ info.last_name }} </li>
+      <li>Weight: {{ info.weight }}</li>
+      <li>Height: {{ info.height }}</li>
+      <li>Expected Calories In:  {{ info.expected_calories }}</li>
+      <a href="/delete_info/{{info.id}}"> Delete </a>
+    </ul>
+    {% endif %}
+    {% endfor %}
   </div>
 
   <div id="form" class="w3-container page w3-animate-opacity" style="display:none">
