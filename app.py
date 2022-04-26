@@ -109,12 +109,63 @@ def index():
 			except:
 				return "There was an error adding the plan!"
 
+		elif request.method == 'POST' and request.form.get("morning_update"):
+			new_mor = request.form.get("new_mor")
+			old_mor = request.form.get("old_mor")
+			plan = DietPlan.query.filter_by(morning_meal=old_mor).first()
+			plan.morning_meal = new_mor
+			db.session.commit()
+			return redirect('/')
+
+		elif request.method == 'POST' and request.form.get("noon_update"):
+			new_noon = request.form.get("new_noon")
+			old_noon = request.form.get("old_noon")
+			plan = DietPlan.query.filter_by(noon_meal=old_noon).first()
+			plan.noon_meal = new_noon
+			db.session.commit()
+			return redirect('/')
+
+		elif request.method == 'POST' and request.form.get("evening_update"):
+			new_eve = request.form.get("new_eve")
+			old_eve = request.form.get("old_eve")
+			plan = DietPlan.query.filter_by(evening_meal=old_eve).first()
+			plan.evening_meal = new_eve
+			db.session.commit()
+			return redirect('/')
+
+		elif request.method == 'POST' and request.form.get("calories_update"):
+			new_cal = request.form.get("new_cal")
+			old_cal = request.form.get("old_cal")
+			plan = DietPlan.query.filter_by(claories_in=old_cal).first()
+			plan.claories_in = new_cal
+			db.session.commit()
+			return redirect('/')
+
 		else:
 			diets = DietPlan.query.filter_by(user=current_user)
 			infos = Info.query.filter_by(user=current_user)
 			return render_template('main.html', diets=diets, infos=infos)
 	else:
 		return redirect('/login')
+
+
+@app.route('/update/<int:id>', methods=['POST', 'GET'])
+def update(id):
+    plan_to_update = DietPlan.query.get_or_404(id)
+    if request.method == "POST":
+        plan_to_update.day = request.form['day']
+        plan_to_update.morning_meal = request.form['morning']
+        plan_to_update.noon_meal = request.form['noon']
+        plan_to_update.evening_meal = request.form['evening']
+        plan_to_update.claories_in = request.form['calories']
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "There was an error updating the plan!"
+    else:
+        return render_template('update.html', plan_to_update=plan_to_update)
+
 	
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -133,6 +184,7 @@ def signup():
 
 	return render_template('signup.html', form=form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -143,6 +195,7 @@ def login():
 			return redirect('/')
 		flash('Wrong username or password')
 	return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 @login_required
@@ -183,6 +236,7 @@ def delete(id):
         return redirect('/')
     except:
         return "There was an error deleting the plan!"
+        
 
 if __name__ == '__main__':
 	manager.run()

@@ -1,0 +1,31 @@
+
+{% block page_content %}
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+<style>
+.submit_form {
+    background-image: url("{{ url_for('static', filename='images/signup.jpg')}}");
+    min-height: 900px;
+    background-position: center;
+    position: center;
+}
+</style>
+</head>
+<div class="w3-container w3-teal">
+  <h1>Update info</h1>
+</div>
+<div class="submit_form">
+	<form  class =  "container" action="/update/{{plan_to_update.id}}" METHOD="POST">
+    <input type="text" placeholder="Day" name="day" value="{{plan_to_update.name}}">
+    <input type="text" placeholder="Morning" name="morning" value="{{plan_to_update.name}}">
+    <input type="text" placeholder="Noon" name="noon" value="{{plan_to_update.name}}">
+    <input type="text" placeholder="Evening" name="evening" value="{{plan_to_update.name}}">
+    <input type="text" placeholder="Calories In" name="calories" value="{{plan_to_update.name}}">
+    <input type="submit" value = "Update it!" class = "btn">
+	</form>
+</div>
+<div class="w3-container w3-teal">
+  <p>Diet Boss</p>
+</div>
+{% endblock %}

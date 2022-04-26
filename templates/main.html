@@ -118,41 +118,44 @@ table{
         </td>
         <td>
           {{ diet.morning_meal }} 
-          <form method="POST" actoin="\" style="display:inline">
+          <!-- <form method="POST" actoin="\" style="display:inline">
                   <input type= "hidden" value="{{diet.morning_meal}}" name="old_mor">
                   <input type="text" value="{{diet.morning_meal}}" name="new_mor">
-          </form> 
+                  <input type="submit" name = "morning_update"  value="Update">
+          </form>  -->
         </td>
         <td>
           {{ diet.noon_meal }}
-          <form method="POST" actoin="\" style="display:inline">
+          <!-- <form method="POST" actoin="\" style="display:inline">
                   <input type= "hidden" value="{{diet.noon_meal}}" name="old_noon">
                   <input type="text" value="{{diet.noon_meal}}" name="new_noon">
-          </form>
+                  <input type="submit" name = "noon_update"  value="Update">
+          </form> -->
         </td>
         <td>
           {{ diet.evening_meal }}
-          <form method="POST" actoin="\" style="display:inline">
+          <!-- <form method="POST" actoin="\" style="display:inline">
                   <input type= "hidden" value="{{diet.evening_meal}}" name="old_eve">
                   <input type="text" value="{{diet.evening_meal}}" name="new_eve">
-          </form>
+                  <input type="submit" name = "evening_update"  value="Update">
+          </form> -->
         </td>
         <td>
           {{ diet.claories_in }}
-          <form method="POST" actoin="\" style="display:inline">
+          <!-- <form method="POST" actoin="\" style="display:inline">
                   <input type= "hidden" value="{{diet.claories_in}}" name="old_cal">
                   <input type="text" value="{{diet.claories_in}}" name="new_cal">
-          </form>
+                  <input type="submit" name = "calories_update"  value="Update">
+          </form> -->
         </td>
         <td>
           <a href="/delete/{{diet.id}}"> Delete </a>
+          </br>
+          <a href="/update/{{diet.id}}"> Update </a>
         </td>
         </tr>
       {% endfor %}
     </table>
-
-   
-   
   </div>
 </div>
 
